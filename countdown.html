@@ -1,0 +1,51 @@
+<div id="countdown"></div>
+<script>
+// Set the countdown start and end dates
+var startDate = new Date("2024-04-01").getTime();
+var endDate = new Date("2024-10-01").getTime();
+
+// Set the initial countdown value
+var initialDays = 130;
+
+// Update the countdown every second
+var x = setInterval(function() {
+  // Get the current date and time
+  var now = new Date().getTime();
+
+  // Calculate the remaining time
+  var distance = endDate - now;
+
+  // Calculate the remaining days
+  var days = Math.max(Math.floor((distance / (1000 * 60 * 60 * 24))), 0);
+
+  // Display the countdown
+  document.getElementById("countdown").innerHTML = days;
+
+  // Apply color scale
+  var colorScale = getColorScale(days);
+  document.getElementById("countdown").style.color = colorScale;
+  
+  // If the countdown is over, display 0 and clear the interval
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("countdown").innerHTML = "0";
+    document.getElementById("countdown").style.color = "red";
+  }
+}, 1000);
+
+// Function to determine color scale based on days remaining
+function getColorScale(days) {
+  var startValue = 130;
+  var endValue = 0;
+  var startColor = [0, 255, 0]; // Green
+  var endColor = [255, 0, 0];   // Red
+  
+  // Calculate color components
+  var r = Math.floor(startColor[0] + (endColor[0] - startColor[0]) * (days / (startValue - endValue)));
+  var g = Math.floor(startColor[1] + (endColor[1] - startColor[1]) * (days / (startValue - endValue)));
+  var b = Math.floor(startColor[2] + (endColor[2] - startColor[2]) * (days / (startValue - endValue)));
+  
+  // Return color string
+  return "rgb(" + r + "," + g + "," + b + ")";
+}
+</script>
